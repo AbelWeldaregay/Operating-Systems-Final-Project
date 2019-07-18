@@ -1,0 +1,6 @@
+build:
+  stage: build
+  image: openjdk:8-jdk
+  script: javac prodcons/app/src/main/java/com/cs471/prodcons/Main.java
+  artifacts:
+    untracked: true
