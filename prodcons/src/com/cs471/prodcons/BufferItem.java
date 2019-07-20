@@ -1,5 +1,9 @@
 package com.cs471.prodcons;
 
+import java.util.Date;
+import java.util.Random;
+import java.text.SimpleDateFormat;
+
 /**
  * @description represents a buffer item
  */
@@ -26,6 +30,16 @@ class BufferItem {
         this.storeId = 0;
         this.registerId = 0;
         this.saleAmount = 0;
+    }
+    
+    public void generateAndSetRandomValues() {
+    	String pattern = "yyyy-MM-dd";
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    	this.salesDate = simpleDateFormat.format(new Date());
+    	this.storeId = 5; // for testing
+    	Random r = new Random();
+		this.registerId = r.nextInt((6 - 1) + 1) + 1;
+		this.saleAmount = (float) ((float) 0.50 + Math.random() * (999.99 - 0.50));
     }
 
     public void setSaleAmount(float rhs) {

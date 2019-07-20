@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * @description Utilities for causing a thread
  * 				to sleep
- * @author Abel Weldaregay
+ * @author AbelWeldaregay
  *
  */
 public class Sleep {
