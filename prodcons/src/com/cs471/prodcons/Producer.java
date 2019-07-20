@@ -20,18 +20,13 @@ public class Producer {
 	 */
 	public void run() {
 		BufferItem message;
-		
 		while (true) {
 			System.out.println("Producer napping");
 			Sleep.nap();
 			BufferItem bufferItem = new BufferItem();
-			
-			
-			
-			
-			
-			
 			System.out.println("Producer produced: ");
+			bufferItem.generateAndSetRandomValues();
+			buffer.insert(bufferItem);
 		}
 	}
 }
