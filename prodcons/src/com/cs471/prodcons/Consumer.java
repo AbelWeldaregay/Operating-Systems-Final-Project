@@ -1,16 +1,20 @@
 package com.cs471.prodcons;
-
+/**
+ * Represents a consumer
+ * @author Abel Weldaregay
+ *
+ */
 public class Consumer implements Runnable {
 	// Variable Elements
-	BoundedBuffer<SalesRecord> buffer;
-	int consumerID;
+	private BoundedBuffer<SalesRecord> localBuffer;
+	private int consumerId;
 	private volatile static boolean exit = false;
-	SalesRecord oneSale;
-	SalesRecord[] consumedSales;
+	private SalesRecord sale;
+	private SalesRecord[] consumedSales;
 
 	// Constructor
 	public Consumer(BoundedBuffer<SalesRecord> buffer) {
-		this.buffer = buffer;
+		this.localBuffer = buffer;
 		consumedSales = new SalesRecord[BoundedBuffer.MAX_BUFFER_ITEMS];
 	}
 
@@ -27,14 +31,13 @@ public class Consumer implements Runnable {
 			BoundedBuffer.countConsumed++;
 			try {
 				//SleepUtil.sleep();
-				oneSale = buffer.remove();
-				Main.allRecords.add(oneSale);
+				sale = localBuffer.consume();
+				Main.allRecords.add(sale);
    			System.out.println("Consumed " + BoundedBuffer.countConsumed + " - " +
    			Thread.currentThread().getName() + ".....storeID: " +
-   			oneSale.storeID + ", Amount: " + oneSale.saleAmount);
-   			
-				 
-				SleepUtil.sleep();
+   			sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
+   
+				UtilityClass.nap();
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();

@@ -1,13 +1,21 @@
 package com.cs471.prodcons;
-
+/**
+ * 
+ * @author Abel Weldaregay
+ *
+ */
 public interface Buffer {
-	
-	
-	// Add a buffer item to the shared buffer (called by producer)
-	public abstract void insert(Object item); //date message
-
-	
-	// Remove an item from the shared buffer (called by consumer)
-	public abstract Object remove(); //date remove
+	/**
+	 * Adds a buffer item to the shared buffer
+	 * Called by producer
+	 * @param item
+	 */
+	public abstract void produce(Object item);
+	/**
+	 * Consumes (removes) an item from the shared buffer
+	 * Called by consumer
+	 * @return
+	 */
+	public abstract Object consume();
 
 }

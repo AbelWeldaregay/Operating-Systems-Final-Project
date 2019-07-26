@@ -3,124 +3,131 @@ package com.cs471.prodcons;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-//import sun.tools.jar.Main;
-
+/**
+ * Represents a sale record
+ * @author Abel Weldaregay
+ *
+ */
 public class SalesRecord {
-	// Variable Elements
-	String salesDate;
-	int storeID;
-	int registerNo;
-	float saleAmount;
+	/**
+	 *  Sales Date (DD/MM/YY)
+	 */
+	private String salesDate;
+	/**
+	 * The store id the item is associated with
+	 * 1 to p range (where p is the number of
+	 * producers)
+	 */
+	private int storeId;
+	/**
+	 * range from 1-6 for any store
+	 */
+	private int registerNumber;
+	/**
+	 * The sale amount in each
+	 * item can range between 0.50 and 999.99
+	 */
+	private float saleAmount;
 
-	// Constructors
-	public SalesRecord(int proID) {
-		setRandDate();
-		setRandReg();
-		setRandSale();
-		storeID=proID; // store ID = producerID
+	/**
+	 * Creates a sales record with a given producer id
+	 * that will be assigned to the store id
+	 * @param proID
+	 */
+	public SalesRecord(int producerId) {
+		
+		this.registerNumber = UtilityClass.getRandomNumberInRange(2, 5);
+		this.saleAmount = UtilityClass.getRandomFloatInRange( 0.50, 999.99);
+		this.storeId=producerId;
+		generateAndSetRandomDates();
 	}
-
-	SalesRecord(String date, int store, int register, float sale) {
+	/**
+	 * 
+	 * @param date
+	 * @param store
+	 * @param register
+	 * @param sale
+	 */
+	SalesRecord(String salesDate, int storeId, int registerNumber, float sale) {
 		@SuppressWarnings("deprecation")
-		Date aDate = new Date(date);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(aDate);
+		Date aDate = new Date(salesDate);
 		SimpleDateFormat fm = new SimpleDateFormat("MM/dd/yy");
 		String newDate = fm.format(aDate);
-
 		this.salesDate = newDate;
-		this.storeID = store;
-		this.registerNo = register;
+		this.storeId = storeId;
+		this.registerNumber = registerNumber;
 		this.saleAmount = sale;
-	};
-
-	// toString Function
-	public String toString() {
-		return "\tSales Date: " + salesDate + "\n\tStore ID: " + Integer.toString(storeID) + "\n\tRegister No.: "
-				+ Integer.toString(registerNo) + "\n\tSale Amount: $" + Float.toString(saleAmount) + "\n";
 	}
 
-	// Gets
+	/**
+	 * Imlements toString() for printing SalesRecord
+	 */
+	public String toString() {
+		return "\tSales Date: " + salesDate + "\n\tStore ID: " + Integer.toString(storeId) + "\n\tRegister No.: "
+				+ Integer.toString(registerNumber) + "\n\tSale Amount: $" + Float.toString(saleAmount) + "\n";
+	}
+
+	/**
+	 * @return sales date
+	 */
 	String getSalesDate() {
 		return this.salesDate;
-	};
-
-	int getStoreID() {
-		return this.storeID;
-	};
-
+	}
+	/**
+	 * 
+	 * @return store id
+	 */
+	int getStoreId() {
+		return this.storeId;
+	}
+	/**
+	 * 
+	 * @return register number
+	 */
 	int getRegisterNo() {
-		return this.registerNo;
-	};
-
+		return this.registerNumber;
+	}
+	/**
+	 * 
+	 * @return sales amount
+	 */
 	float getSaleAmount() {
 		return this.saleAmount;
-	};
-
-	// Sets
-	@SuppressWarnings("deprecation")
-	void setSalesDate(String date) {
-		Date aDate = new Date(date);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(aDate);
-		SimpleDateFormat fm = new SimpleDateFormat("MM/dd/yy");
-		this.salesDate = fm.format(aDate);
 	}
-
-	void setStoreID(int store) {
-		this.storeID = store;
-	};
-
+	/**
+	 * Set storeid
+	 * @param store
+	 */
+	void setStoreId(int store) {
+		this.storeId = store;
+	}
+	/**
+	 * sets register number
+	 * @param register
+	 */
 	void setRegisterNo(int register) {
-		this.registerNo = register;
-	};
-
+		this.registerNumber = register;
+	}
+	/**
+	 * set the sale amount
+	 * @param sale
+	 */
 	void setSaleAmount(float sale) {
 		this.saleAmount = sale;
-	};
-
-	// Random Utilities
-	int makeRandDay() {
-		Random random = new Random();
-		int day = random.nextInt(29) + 1;
-		return day;
 	}
-
-	int makeRandMonth() {
-		Random random = new Random();
-		int month = random.nextInt(12);
-		return month;
-	}
-
+	/**
+	 * generate and set the random day and month of the date
+	 * The year will always be 2016 as specified in specification
+	 */
 	@SuppressWarnings("deprecation")
-	void setRandDate() {
-		int day = makeRandDay();
-		int month = makeRandMonth();
-
+	void generateAndSetRandomDates() {
 		Date date = new Date();
-		date.setMonth(month);
+		date.setMonth(UtilityClass.getRandomNumberInRange(1, 29));
 		date.setYear(2016);
-		date.setDate(day);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
+		date.setDate(UtilityClass.getRandomNumberInRange(1, 12));
 		SimpleDateFormat fm = new SimpleDateFormat("MM/dd/yy");
 		this.salesDate = fm.format(date);
 	}
 
-	void setRandStoreId() {
-		Random random = new Random();
-		int p = BoundedBuffer.getProducers();
-		this.storeID = random.nextInt(p) + 1;
-	}
-
-	void setRandReg() {
-		Random random = new Random();
-		this.registerNo = random.nextInt(5) + 1;
-	}
-
-	void setRandSale() {
-		Random random = new Random();
-		this.saleAmount = 50 + (949) * random.nextFloat();
-	}
 
 }

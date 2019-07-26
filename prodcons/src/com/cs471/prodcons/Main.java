@@ -49,7 +49,6 @@ public class Main {
 				consumerThreads.get(i).start();
 			}
 			
-
 			for (int i=0; i<p_Producers; i++) {
 				try {
 					producerThreads.get(i).join();

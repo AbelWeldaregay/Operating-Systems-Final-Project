@@ -2,29 +2,35 @@ package com.cs471.prodcons;
 
 public class Producer implements Runnable {
 	// Variable Elements
-	BoundedBuffer<SalesRecord> buffer;
-	int producerID;
+	private BoundedBuffer<SalesRecord> localBuffer;
+	private int producerId;
 	private volatile static boolean exit = false;
-	SalesRecord oneSale;
+	private SalesRecord sale;
 
-	// Constructor
-	public Producer(BoundedBuffer<SalesRecord> buffer, int i) {
-		this.buffer = buffer;
-		producerID = i;
+	/**
+	 * Create a producer with a given producer and producer id
+	 * @param buffer
+	 * @param i
+	 */
+	public Producer(BoundedBuffer<SalesRecord> buffer, int producerId) {
+		this.localBuffer = buffer;
+		this.producerId = producerId;
 	}
-
+	/**
+	 * creates a producer thread
+	 */
 	@Override
 	public void run() {
 		while (!exit) {
 			BoundedBuffer.countProduced++;
 			try {
-				oneSale = new SalesRecord(producerID);
-				SleepUtil.sleep();
+				sale = new SalesRecord(this.producerId);
+				UtilityClass.nap();
 				
-				buffer.insert(oneSale);
+				this.localBuffer.produce(sale);
    			System.out.println("Produced " + BoundedBuffer.countProduced + " - " +
 				Thread.currentThread().getName() + ".....storeID: " +
-				oneSale.storeID + ", Amount: " + oneSale.saleAmount);
+				sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
 				 
 			} catch (InterruptedException e) {
 				e.printStackTrace();

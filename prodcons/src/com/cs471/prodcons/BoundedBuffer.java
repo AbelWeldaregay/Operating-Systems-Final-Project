@@ -35,7 +35,7 @@ class BoundedBuffer<E> {
 		return P;
 	}
 
-	int getConsumers() {
+	static int getConsumers() {
 		return C;
 	}
 
@@ -44,7 +44,7 @@ class BoundedBuffer<E> {
 	}
 
 	// producers call this method
-	public synchronized void insert(SalesRecord item)
+	public synchronized void produce(SalesRecord sale)
 			throws InterruptedException {
 		while (count == BUFFER_SIZE) { // wait till the buffer has an open space
 			try {
@@ -53,7 +53,7 @@ class BoundedBuffer<E> {
 				throw e;
 			}
 		}
-		buffer[in] = item;
+		buffer[in] = sale;
 		in = (in + 1) % BUFFER_SIZE;
 		++count;
 		// System.out.println("Items in buffer: " + checkCount());
@@ -61,7 +61,7 @@ class BoundedBuffer<E> {
 	}
 
 	// Consumers call this method
-	public synchronized SalesRecord remove() throws InterruptedException {
+	public synchronized SalesRecord consume() throws InterruptedException {
 		while (count == 0) { // wait till something appears in the buffer
 			try {
 				wait();
