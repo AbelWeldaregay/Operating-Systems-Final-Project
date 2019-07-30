@@ -15,7 +15,7 @@ public class Consumer implements Runnable {
 	// Constructor
 	public Consumer(BoundedBuffer<SalesRecord> buffer) {
 		this.localBuffer = buffer;
-		consumedSales = new SalesRecord[BoundedBuffer.MAX_BUFFER_ITEMS];
+		consumedSales = new SalesRecord[BoundedBuffer.MAX_BUFFER_SIZE];
 	}
 
 	void print() {
@@ -26,27 +26,29 @@ public class Consumer implements Runnable {
 
 	@Override
 	public void run() {
-		while (!exit) {
+		while (this.localBuffer.getConsumedCount() < BoundedBuffer.MAX_BUFFER_SIZE) {
 			// Increment number of items consumed, tracked by the sharedBuffer
-			BoundedBuffer.countConsumed++;
+			this.localBuffer.consumedCount++;
+			
 			try {
-				//SleepUtil.sleep();
-				sale = localBuffer.consume();
-				Main.allRecords.add(sale);
-   			System.out.println("Consumed " + BoundedBuffer.countConsumed + " - " +
-   			Thread.currentThread().getName() + ".....storeID: " +
-   			sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
-   
-				UtilityClass.nap();
-
+				sale = this.localBuffer.consume();
 			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (BoundedBuffer.countConsumed == BoundedBuffer.MAX_BUFFER_ITEMS) {
+			Main.globalStats.add(sale);
+ 			System.out.println("Consumed " + this.localBuffer.getConsumedCount() + " - " +
+ 			Thread.currentThread().getName() + ".....storeID: " +
+ 			sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
+			
+			UtilityClass.nap();
 
+			if (this.localBuffer.getConsumedCount() >= BoundedBuffer.MAX_BUFFER_SIZE) {
 				stop();
 			}
 		}
+
+
 	}
 	// Stop when TOT_SALES_RECORDS items are produced
 	public static void stop() {

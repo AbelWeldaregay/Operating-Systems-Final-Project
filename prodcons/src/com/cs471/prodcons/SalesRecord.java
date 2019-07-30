@@ -84,7 +84,7 @@ public class SalesRecord {
 	 * 
 	 * @return register number
 	 */
-	int getRegisterNo() {
+	int getRegisterNumber() {
 		return this.registerNumber;
 	}
 	/**
@@ -100,13 +100,6 @@ public class SalesRecord {
 	 */
 	void setStoreId(int store) {
 		this.storeId = store;
-	}
-	/**
-	 * sets register number
-	 * @param register
-	 */
-	void setRegisterNo(int register) {
-		this.registerNumber = register;
 	}
 	/**
 	 * set the sale amount

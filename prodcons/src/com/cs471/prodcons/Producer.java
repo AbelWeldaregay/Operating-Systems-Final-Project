@@ -21,25 +21,30 @@ public class Producer implements Runnable {
 	 */
 	@Override
 	public void run() {
-		while (!exit) {
-			BoundedBuffer.countProduced++;
+		while (this.localBuffer.getProducedCount() <= BoundedBuffer.MAX_BUFFER_SIZE) {
+			this.localBuffer.producedCount++;
+			
+			sale = new SalesRecord(producerId);
 			try {
-				sale = new SalesRecord(this.producerId);
-				UtilityClass.nap();
-				
 				this.localBuffer.produce(sale);
-   			System.out.println("Produced " + BoundedBuffer.countProduced + " - " +
-				Thread.currentThread().getName() + ".....storeID: " +
-				sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
-				 
 			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// Increment number of items produced, tracked by the sharedBuffer
-			if (BoundedBuffer.countProduced == BoundedBuffer.MAX_BUFFER_ITEMS) {
+ 			System.out.println(
+ 					"Produced " + this.localBuffer.getProducedCount() + " - " +
+					Thread.currentThread().getName() + ".....storeID: " +
+					sale.getStoreId() + ", Amount: " + sale.getSaleAmount()
+			);
+			
+			UtilityClass.nap();
+			
+			if (this.localBuffer.getProducedCount() >= BoundedBuffer.MAX_BUFFER_SIZE) {
+				// Instructs all producers to stop
 				stop();
 			}
 		}
+
 	}
 	public static void stop() {
 		exit = true;
