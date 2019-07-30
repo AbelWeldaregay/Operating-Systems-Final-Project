@@ -1,16 +1,18 @@
 package com.cs471.prodcons;
 
-class BoundedBuffer<E> {
+
+class BoundedBuffer {
 	/**
 	 * Number of producers
 	 */
 	static int PRODUCERS;
 	/**
-	 * Number of Consumers
+	 * Number of consumers
 	 */
 	static int CONSUMERS;
+	// Bounded Size of the buffer
 	/**
-	 * size of bounded buffer
+	 * Size of bounded buffer
 	 */
 	private static final int BUFFER_SIZE = 5;
 	/**
@@ -20,36 +22,32 @@ class BoundedBuffer<E> {
 	/**
 	 * Number of items produced by all producers
 	 */
-	static volatile int producedCount;
+	static volatile int countProduced;
 	/**
-	 * Number of items consumed by all consumers
+	 * Items that have been removed (consumed) by all consumers
 	 */
-	static volatile int consumedCount;
+	static volatile int countConsumed;
 	/**
-	 * The number of items currently in the bounded buffer
+	 * Items currently in the buffer
 	 */
 	volatile int count;
 	/**
-	 * Next item to be produced
+	 * 
 	 */
+	SalesRecord sale;
 	private int in;
-	/**
-	 * Next item to be consumed
-	 */
-	private int out;
-	/**
-	 * shared buffer
-	 */
-	private SalesRecord[] buffer;
-	
-	BoundedBuffer(int producers, int consumers) {
-		BoundedBuffer.PRODUCERS = producers;
-		BoundedBuffer.CONSUMERS = consumers;
-		BoundedBuffer.producedCount = 0;
-		BoundedBuffer.consumedCount = 0;
+	private int out; // next item to be produced and consumed
+	private SalesRecord[] buffer; // array type E called buffer
+
+	BoundedBuffer(int P, int C) {
+		BoundedBuffer.PRODUCERS = P;
+		BoundedBuffer.CONSUMERS = C;
+		BoundedBuffer.countProduced = 0; // initially there are 0 produced items
+		BoundedBuffer.countConsumed = 0; // initially there are 0 consumed items
 		this.in = 0;
 		this.out = 0;
-		this.count = 0; 
+		this.count = 0; // initially the buffer is empty
+		// Set the buffer to a bounded size (it can hold BUFFER_SIZE SalesRecords at a time)
 		this.buffer = new SalesRecord[BUFFER_SIZE]; 
 	}
 
@@ -57,20 +55,16 @@ class BoundedBuffer<E> {
 		return PRODUCERS;
 	}
 
-	static int getConsumers() {
+	int getConsumers() {
 		return CONSUMERS;
 	}
 
 	int checkCount() {
 		return count;
 	}
-	/**
-	 * Called by producers
-	 * @param sale
-	 * @throws InterruptedException
-	 */
-	public synchronized void produce(SalesRecord sale)
-			throws InterruptedException {
+
+	// producers call this method
+	public synchronized void insert(SalesRecord item) {
 		while (count >= BUFFER_SIZE) { // wait till the buffer has an open space
 			//SleepUtil.sleep();
 			try {
@@ -81,19 +75,15 @@ class BoundedBuffer<E> {
 			}
 			System.err.println("insert() waiting, count="+count);
 		}
-		buffer[in] = sale;
+		buffer[in] = item;
 		in = (in + 1) % BUFFER_SIZE;
 		++count;
 		// System.out.println("Items in buffer: " + checkCount());
 		this.notifyAll();
-
 	}
-	/**
-	 * Called by consumers
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public synchronized SalesRecord consume() throws InterruptedException {
+
+	// Consumers call this method
+	public synchronized SalesRecord remove() {
 		while (count <= 0) { // wait till something appears in the buffer
 			//SleepUtil.sleep();
 			try {
@@ -110,14 +100,23 @@ class BoundedBuffer<E> {
 		// System.out.println("Items in buffer: " + checkCount());
 		this.notifyAll();
 		return anItem;
-
 	}
 	
-	public synchronized int getProducedCount() {
-		return this.producedCount;
+	public synchronized int getCountProduced() {
+			return this.countProduced;
 	}
 	
-	public synchronized int getConsumedCount() {
-		return this.consumedCount;
+	public synchronized void incrementCountProduced() {
+			this.countProduced++;
 	}
+	
+	public synchronized int getCountConsumed() {
+			return this.countConsumed;
+	}
+	
+	public synchronized void incrementCountConsumed() {
+			this.countConsumed++;
+	}
+	
 }
+

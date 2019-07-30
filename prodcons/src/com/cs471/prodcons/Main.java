@@ -5,13 +5,11 @@ import java.util.List;
 
 public class Main {
 	
-	// For Global Statistics
-	// Pass local statistics from each producer to allRecords
+	/**
+	 * The local stats are passed into this arraylist
+	 */
 	static List<SalesRecord> globalStats;
-	static int producersCountArg;
-	static int consumersCountArg;
-	static ArrayList<Thread> producerThreads;
-	static ArrayList<Thread> consumerThreads;
+	
 	void insertRecords (SalesRecord records[]) {
 		for(int i=0; i<records.length; i++) {
 			globalStats.add(records[i]);
@@ -25,57 +23,58 @@ public class Main {
 	}
 	
 	
-	
 	public static void main(String[] args) {
+		long begin_ms = System.currentTimeMillis();
+		
 		globalStats = new ArrayList<SalesRecord>();
 		
-		producersCountArg = Integer.parseInt(args[0]);
-		consumersCountArg = Integer.parseInt(args[1]);
+		int producerCountArg = Integer.parseInt(args[0]);
+		int consumerCountArg = Integer.parseInt(args[1]);
 			
-		producerThreads = new ArrayList<>(producersCountArg);
-		
-		consumerThreads = new ArrayList<>(consumersCountArg);
+		List<Thread> producerThreads = new ArrayList<>(producerCountArg);
+		List<Thread> consumerThreads = new ArrayList<>(consumerCountArg);
 		
 		// Create the shared buffer to synchronize producer and consumer threads		
-		final BoundedBuffer<SalesRecord> sharedBuffer = new BoundedBuffer<SalesRecord>(producersCountArg, consumersCountArg);
-		System.out.println(producersCountArg + " Producers and " + consumersCountArg + " Consumers to be initilized \n");
+		final BoundedBuffer sharedBuffer = new BoundedBuffer(producerCountArg, consumerCountArg);
+		System.out.println(producerCountArg + " Producers and " + consumerCountArg + " Consumers to be initilized \n");
 		
-			for (int i=0; i<producersCountArg; i++) {
+			for (int i=0; i<producerCountArg; i++) {
 				producerThreads.add(new Thread(new Producer(sharedBuffer, i)));
 			} 
-			for (int i=0; i<producersCountArg; i++) {
+			for (int i=0; i<producerCountArg; i++) {
 				producerThreads.get(i).start();
 			}
 
-			for (int i=0; i < consumersCountArg; i++) {
+			for (int i=0; i < consumerCountArg; i++) {
 				consumerThreads.add(new Thread(new Consumer(sharedBuffer)));
 			}
-			for (int i=0; i<consumersCountArg; i++) {
+			for (int i=0; i<consumerCountArg; i++) {
 				consumerThreads.get(i).start();
 			}
 			
-			for (int i=0; i<producersCountArg; i++) {
+
+			for (int i=0; i<producerCountArg; i++) {
 				try {
 					producerThreads.get(i).join();
 				} catch (InterruptedException e) {}
 			}
 			
-			for (int i=0; i<consumersCountArg; i++) {
+			for (int i=0; i<consumerCountArg; i++) {
 				try {
 					consumerThreads.get(i).join();
 				} catch (InterruptedException e) {}
 			}
 			
-			try {
-				Thread.sleep(2000);
-				for (int i = 0; i < Main.globalStats.size(); i++) {
-					System.out.println((i+1) + "         " + Main.globalStats.get(i));
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			
-		return;
+		for (int i = 0; i < Main.globalStats.size(); i++) {
+				System.out.println((i+1) + "         " + Main.globalStats.get(i));
+		}
+		
+		long end_ms = System.currentTimeMillis();
+		
+		long total_duration_ms = end_ms - begin_ms;
+		System.out.println("Total run took "+total_duration_ms+"ms");
+		
+		
 	}
 }
+

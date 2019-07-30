@@ -1,52 +1,42 @@
 package com.cs471.prodcons;
 
+
 public class Producer implements Runnable {
 	// Variable Elements
-	private BoundedBuffer<SalesRecord> localBuffer;
-	private int producerId;
+	BoundedBuffer buffer;
+	int producerID;
 	private volatile static boolean exit = false;
-	private SalesRecord sale;
+	SalesRecord oneSale;
 
-	/**
-	 * Create a producer with a given producer and producer id
-	 * @param buffer
-	 * @param i
-	 */
-	public Producer(BoundedBuffer<SalesRecord> buffer, int producerId) {
-		this.localBuffer = buffer;
-		this.producerId = producerId;
+	// Constructor
+	public Producer(BoundedBuffer buffer, int i) {
+		this.buffer = buffer;
+		producerID = i;
 	}
-	/**
-	 * creates a producer thread
-	 */
+
 	@Override
 	public void run() {
-		while (this.localBuffer.getProducedCount() <= BoundedBuffer.MAX_BUFFER_SIZE) {
-			this.localBuffer.producedCount++;
+		while (this.buffer.getCountProduced() <= BoundedBuffer.MAX_BUFFER_SIZE) {
+			this.buffer.incrementCountProduced();
 			
-			sale = new SalesRecord(producerId);
-			try {
-				this.localBuffer.produce(sale);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			oneSale = new SalesRecord(producerID);
+			this.buffer.insert(oneSale);
  			System.out.println(
- 					"Produced " + this.localBuffer.getProducedCount() + " - " +
+ 					"Produced " + this.buffer.getCountProduced() + " - " +
 					Thread.currentThread().getName() + ".....storeID: " +
-					sale.getStoreId() + ", Amount: " + sale.getSaleAmount()
+					oneSale.getStoreId() + ", Amount: " + oneSale.getSaleAmount()
 			);
 			
 			UtilityClass.nap();
 			
-			if (this.localBuffer.getProducedCount() >= BoundedBuffer.MAX_BUFFER_SIZE) {
+			if (this.buffer.getCountProduced() >= BoundedBuffer.MAX_BUFFER_SIZE) {
 				// Instructs all producers to stop
 				stop();
 			}
 		}
-
 	}
 	public static void stop() {
 		exit = true;
 	}
 }
+

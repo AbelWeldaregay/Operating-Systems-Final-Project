@@ -13,14 +13,17 @@ public class UtilityClass {
 	private static final int SLEEP_LENGTH_MAX = 25;
 
 	public static void nap() {
-		int amountofsleep = SLEEP_LENGTH_MIN + (int) (Math.random() * ((SLEEP_LENGTH_MAX - SLEEP_LENGTH_MIN) +1));
-		System.out.println("Sleep for " + amountofsleep+ " seconds ");
-		
-	try { Thread.sleep(amountofsleep*1000); }
+		int min_ms = 5;
+		int max_ms = 40;
+		int sleep_ms = (int) (min_ms + (Math.random() * (double) (max_ms-min_ms)));
+		try {
+			Thread.sleep(sleep_ms);
+		}
 		catch (InterruptedException e) {
-		System.out.println("ERROR in sleep() : " + e);
+			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * generates a integer in given range
 	 * @param min
