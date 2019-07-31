@@ -9,6 +9,7 @@ public class Main {
 	 * The local stats are passed into this arraylist
 	 */
 	static List<SalesRecord> globalStats;
+	
 	static int producerCountArg;
 	static int consumerCountArg;
 	void insertRecords (SalesRecord records[]) {
