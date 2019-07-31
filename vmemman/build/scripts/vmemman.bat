@@ -82,7 +82,7 @@ set CMD_LINE_ARGS=%*
 set CLASSPATH=%APP_HOME%\lib\vmemman.jar
 
 @rem Execute vmemman
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %VMEMMAN_OPTS%  -classpath "%CLASSPATH%" com.cs471.prodcons.Main %CMD_LINE_ARGS%
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %VMEMMAN_OPTS%  -classpath "%CLASSPATH%" com.cs471.vmemman.Main %CMD_LINE_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell
