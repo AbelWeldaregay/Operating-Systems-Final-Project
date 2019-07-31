@@ -95,7 +95,7 @@ public class SalesRecord {
 		return this.saleAmount;
 	}
 	/**
-	 * Set storeid
+	 * Set the storeId
 	 * @param store
 	 */
 	void setStoreId(int store) {

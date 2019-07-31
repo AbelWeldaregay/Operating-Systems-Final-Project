@@ -4,39 +4,35 @@ package com.cs471.prodcons;
 public class Producer implements Runnable {
 	// Variable Elements
 	BoundedBuffer buffer;
-	int producerID;
+	int producerId;
 	private volatile static boolean exit = false;
 	SalesRecord oneSale;
 
 	// Constructor
 	public Producer(BoundedBuffer buffer, int i) {
 		this.buffer = buffer;
-		producerID = i;
+		producerId = i;
 	}
 
 	@Override
 	public void run() {
-		while (this.buffer.getCountProduced() <= BoundedBuffer.MAX_BUFFER_SIZE) {
-			this.buffer.incrementCountProduced();
+		while (this.buffer.getProducedCount() <= BoundedBuffer.MAX_BUFFER_SIZE) {
+			this.buffer.incrementProducedCount();
 			
-			oneSale = new SalesRecord(producerID);
-			this.buffer.insert(oneSale);
+			oneSale = new SalesRecord(producerId);
+			this.buffer.produce(oneSale);
  			System.out.println(
- 					"Produced " + this.buffer.getCountProduced() + " - " +
+ 					"Produced " + this.buffer.getProducedCount() + " - " +
 					Thread.currentThread().getName() + ".....storeID: " +
 					oneSale.getStoreId() + ", Amount: " + oneSale.getSaleAmount()
 			);
 			
 			UtilityClass.nap();
 			
-			if (this.buffer.getCountProduced() >= BoundedBuffer.MAX_BUFFER_SIZE) {
-				// Instructs all producers to stop
-				stop();
+			if (this.buffer.getProducedCount() >= BoundedBuffer.MAX_BUFFER_SIZE) {
+				exit = true;
 			}
 		}
-	}
-	public static void stop() {
-		exit = true;
 	}
 }
 

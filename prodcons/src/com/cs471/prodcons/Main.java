@@ -22,9 +22,7 @@ public class Main {
 		}
 	}
 	
-	
 	public static void main(String[] args) {
-		long begin_ms = System.currentTimeMillis();
 		
 		globalStats = new ArrayList<SalesRecord>();
 		
@@ -67,14 +65,7 @@ public class Main {
 			
 		for (int i = 0; i < Main.globalStats.size(); i++) {
 				System.out.println((i+1) + "         " + Main.globalStats.get(i));
-		}
-		
-		long end_ms = System.currentTimeMillis();
-		
-		long total_duration_ms = end_ms - begin_ms;
-		System.out.println("Total run took "+total_duration_ms+"ms");
-		
-		
+		}	
 	}
 }
 

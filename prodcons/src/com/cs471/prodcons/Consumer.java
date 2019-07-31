@@ -26,26 +26,22 @@ public class Consumer implements Runnable {
 
 	@Override
 	public void run() {
-		while (this.localBuffer.getCountConsumed() < BoundedBuffer.MAX_BUFFER_SIZE) {
+		while (this.localBuffer.getConsumedCount() < BoundedBuffer.MAX_BUFFER_SIZE) {
 			// Increment number of items consumed, tracked by the sharedBuffer
-			this.localBuffer.incrementCountConsumed();
+			this.localBuffer.incrementConsumedCount();
 			
-			sale = this.localBuffer.remove();
+			sale = this.localBuffer.consume();
 			Main.globalStats.add(sale);
- 			System.out.println("Consumed " + this.localBuffer.getCountConsumed() + " - " +
+ 			System.out.println("Consumed " + this.localBuffer.getConsumedCount() + " - " +
  			Thread.currentThread().getName() + ".....storeID: " +
  			sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
 			
 			UtilityClass.nap();
 
-			if (this.localBuffer.getCountConsumed() >= BoundedBuffer.MAX_BUFFER_SIZE) {
-				stop();
+			if (this.localBuffer.getConsumedCount() >= BoundedBuffer.MAX_BUFFER_SIZE) {
+				exit = true;
 			}
 		}
-	}
-	// Stop when TOT_SALES_RECORDS items are produced
-	public static void stop() {
-		exit = true;
 	}
 }
 
