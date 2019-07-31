@@ -76,7 +76,7 @@ class BoundedBuffer {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.err.println("insert() waiting, count="+count);
+			System.err.println("PRODUCE WAITING | ITEMS IN BUFFER: " + count);
 		}
 		buffer[in] = item;
 		in = (in + 1) % BUFFER_SIZE;
@@ -91,7 +91,7 @@ class BoundedBuffer {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.err.println("remove() waiting, count="+count);
+			System.err.println("CONSUME WAITING | ITEMS IN BUFFER: " + count);
 		}
 		SalesRecord saleRecord = buffer[out];
 		out = (out + 1) % BUFFER_SIZE;

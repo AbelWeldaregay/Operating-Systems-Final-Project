@@ -9,7 +9,8 @@ public class Main {
 	 * The local stats are passed into this arraylist
 	 */
 	static List<SalesRecord> globalStats;
-	
+	static int producerCountArg;
+	static int consumerCountArg;
 	void insertRecords (SalesRecord records[]) {
 		for(int i=0; i<records.length; i++) {
 			globalStats.add(records[i]);
@@ -26,8 +27,8 @@ public class Main {
 		
 		globalStats = new ArrayList<SalesRecord>();
 		
-		int producerCountArg = Integer.parseInt(args[0]);
-		int consumerCountArg = Integer.parseInt(args[1]);
+		producerCountArg = Integer.parseInt(args[0]);
+		consumerCountArg = Integer.parseInt(args[1]);
 			
 		List<Thread> producerThreads = new ArrayList<>(producerCountArg);
 		List<Thread> consumerThreads = new ArrayList<>(consumerCountArg);
