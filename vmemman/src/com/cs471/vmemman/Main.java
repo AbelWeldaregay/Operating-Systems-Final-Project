@@ -22,13 +22,9 @@ public class Main {
 			virtualAddresses.add(Integer.parseInt(sc.nextLine()));	
 		}
 		
-		for (int i = 0; i < algorithms.length; i++) {
-			for (int j = 0; j < pageSizes.length; j++) {
-				for (int x = 0; x < frames.length; x++) {
-					
-				}
-			}
-		}
+		FIFO fifo = new FIFO(512 ,virtualAddresses, 4 );
+		int pageFaults = fifo.pageFaults();
+		System.out.println("NUMBER OF PAGE FAULTS: " + pageFaults);
 		
 		
 	}
