@@ -15,13 +15,30 @@ public class FIFO {
 	private ArrayList<Integer> pages = new ArrayList<Integer>();
 	
 	public FIFO(int pageSize, ArrayList<Integer> virtualAddresses, int frameSize) {
-		this.pageSize = pageSize;
+		//this.pageSize = pageSize;
 		this.frameSize = frameSize;
-		this.virtualAddresses = virtualAddresses;
-		for (int i = 0; i < this.virtualAddresses.size(); i++) {
-			this.pages.add(UtilityClass.getPageNumber(this.virtualAddresses.get(i), this.pageSize));
-		}
+		//this.virtualAddresses = virtualAddresses;
+		
+		pages.add(7);
+		pages.add(0);
+		pages.add(1);
+		
+		pages.add(2);
+		pages.add(0);
+		pages.add(3);
+		pages.add(0);
+		pages.add(4);
+		pages.add(2);
+		pages.add(3);
+		pages.add(0);
+		pages.add(3);
+		pages.add(2);
+		
+//		for (int i = 0; i < this.virtualAddresses.size(); i++) {
+//			this.pages.add(UtilityClass.getPageNumber(this.virtualAddresses.get(i), this.pageSize));
+//		}
 	}
+
 	
 	public String pageFaults() {
 		
@@ -45,8 +62,6 @@ public class FIFO {
 					 * Push the current page into the queue
 					 */
 					inMemoryPages.add(this.pages.get(i));
-				} else {
-					hits++;
 				}
 				
 			} 
@@ -73,8 +88,6 @@ public class FIFO {
 					 */
 					inMemoryPages.add(this.pages.get(i));
 					pageFaults++;
-				} else {
-					hits++;
 				}
 			}
 		}
@@ -82,7 +95,7 @@ public class FIFO {
 		float percentage = ((float) pageFaults) / numberOfPages;
 		percentage = percentage * 100;
 		
-		return df2.format(percentage);
+		return Integer.toString(pageFaults);
 		
 	}
 	
