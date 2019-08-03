@@ -22,7 +22,7 @@ public class Main {
 			virtualAddresses.add(Integer.parseInt(sc.nextLine()));	
 		}
 		System.out.println(" _______________________________________________________");
-		System.out.println("| Page Size | # of Pages | Algorithm | # of Page Faults |");
+		System.out.println("| Page Size | # of Pages | Algorithm | % of Page Faults |");
 		for (int a = 0; a < algorithms.length; a++) {
 			for (int p = 0; p < pageSizes.length; p++) {
 				for (int f = 0; f < frames.length; f++) {
@@ -30,17 +30,17 @@ public class Main {
 					if (algorithms[a].equals("FIFO")) {
 						FIFO fifo = new FIFO(pageSizes[p], virtualAddresses, frames[f]);
 						System.out.format("%1s %5s %5s %5s %6s %6s %4s %10s %8s",
-				               "|" ,Integer.toString(pageSizes[p]), "|", Integer.toString(frames[f]), "|" , algorithms[a], "|", Integer.toString(fifo.pageFaults()), "|\n");
+				               "|" ,Integer.toString(pageSizes[p]), "|", Integer.toString(frames[f]), "|" , algorithms[a], "|", fifo.pageFaults(), "|\n");
 
 					} else if (algorithms[a].equals("LRU")) {
 						LRU lru = new LRU(pageSizes[p], virtualAddresses, frames[f]);
 						System.out.format("%1s %5s %5s %5s %6s %6s %4s %10s %8s",
-					               "|" ,Integer.toString(pageSizes[p]), "|", Integer.toString(frames[f]), "|" , algorithms[a], "|", Integer.toString(lru.pageFaults()), "|\n");
+					               "|" ,Integer.toString(pageSizes[p]), "|", Integer.toString(frames[f]), "|" , algorithms[a], "|", lru.pageFaults(), "|\n");
 
 					} else if (algorithms[a].equals("MRU")) {
 						MRU mru = new MRU(pageSizes[p], virtualAddresses, frames[f]);
 						System.out.format("%1s %5s %5s %5s %6s %6s %4s %10s %8s",
-					               "|" ,Integer.toString(pageSizes[p]), "|", Integer.toString(frames[f]), "|" , algorithms[a], "|", Integer.toString(mru.pageFaults()), "|\n");
+					               "|" ,Integer.toString(pageSizes[p]), "|", Integer.toString(frames[f]), "|" , algorithms[a], "|", mru.pageFaults(), "|\n");
 
 					}
 				}

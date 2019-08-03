@@ -1,5 +1,6 @@
 package com.cs471.vmemman;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class LRU {
 
 	}
 	
-	public int pageFaults() {
+	public String pageFaults() {
 		
 		/*
 		 * Represents the set of current pages
@@ -35,6 +36,7 @@ public class LRU {
 		
 		// start from initial page
 		int pageFaults = 0;
+		int hits = 0;
 		int n = this.pages.size();
 		for (int i = 0; i < n; i++) {
 			
@@ -43,10 +45,12 @@ public class LRU {
 				if (!s.contains(this.pages.get(i))) {
 					s.add(this.pages.get(i));
 					pageFaults++;
+				} else {
+					hits++;
 				}
 				//store the recently used index of each page
 				indexes.put(pages.get(i), i);
-			} 
+			}
 			/*
 			 * If the set is full, then LRU algorithm 
 			 * is used to replace the least recently used
@@ -79,13 +83,19 @@ public class LRU {
 					s.add(pages.get(i));
 					// Increase the number of page faults
 					pageFaults++;
+				} else {
+					hits++;
 				}
 				indexes.put(pages.get(i), i);
 			}
 
 			
 		}
-		return pageFaults;
+		DecimalFormat df2 = new DecimalFormat("0.00");
+		float percentage = ((float) pageFaults) / pages.size();
+		percentage = percentage * 100;
+		
+		return df2.format(percentage);
 	}
 	
 	

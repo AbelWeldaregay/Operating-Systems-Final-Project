@@ -2,6 +2,7 @@ package com.cs471.vmemman;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class MRU {
@@ -20,7 +21,7 @@ public class MRU {
 
 	}
 	
-	public int pageFaults() {
+	public String pageFaults() {
 		
 		HashSet<Integer> s = new HashSet<>(this.frameSize);
 		
@@ -56,7 +57,11 @@ public class MRU {
 			
 		}
 		
-		return pageFaults;
+		DecimalFormat df2 = new DecimalFormat("0.00");
+		float percentage = ((float) pageFaults) / pages.size();
+		percentage = percentage * 100;
+		
+		return df2.format(percentage);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.cs471.vmemman;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -22,11 +23,12 @@ public class FIFO {
 		}
 	}
 	
-	int pageFaults() {
+	public String pageFaults() {
 		
 		HashSet<Integer> s = new HashSet<>(frameSize);
 		
 		int pageFaults = 0;
+		int hits = 0;
 		int numberOfPages = this.pages.size();
 		for (int i = 0; i < numberOfPages; i++) {
 			// check if the current frame has space
@@ -44,7 +46,7 @@ public class FIFO {
 					 */
 					inMemoryPages.add(this.pages.get(i));
 				} else {
-				//	System.out.println("PAGE HIT PAGE #: " + this.pages.get(i));
+					hits++;
 				}
 				
 			} 
@@ -72,14 +74,15 @@ public class FIFO {
 					inMemoryPages.add(this.pages.get(i));
 					pageFaults++;
 				} else {
-				//	System.out.println("PAGE HIT AT PAGE #: " + this.pages.get(i));
+					hits++;
 				}
-				
-				
 			}
 		}
+		DecimalFormat df2 = new DecimalFormat("0.00");
+		float percentage = ((float) pageFaults) / numberOfPages;
+		percentage = percentage * 100;
 		
-		return pageFaults;
+		return df2.format(percentage);
 		
 	}
 	
