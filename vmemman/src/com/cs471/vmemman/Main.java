@@ -28,5 +28,8 @@ public class Main {
 		LRU lru = new LRU(512, virtualAddresses, 4);
 		int lruPageFaults = lru.pageFaults();
 		System.out.println("# OF PAGE FAULTS LRU: " + lruPageFaults);
+		MRU mru = new MRU(512, virtualAddresses, 4);
+		int mruPageFaults = mru.pageFaults();
+		System.out.println("# of PAGE FAULTS MRU: " + mruPageFaults );
 	}
 }

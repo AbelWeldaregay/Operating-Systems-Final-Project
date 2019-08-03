@@ -19,6 +19,7 @@ public class LRU {
 		for (int i = 0; i < this.virtualAddresses.size(); i++) {
 			this.pages.add(UtilityClass.getPageNumber(this.virtualAddresses.get(i), this.pageSize));
 		}
+
 	}
 	
 	public int pageFaults() {
