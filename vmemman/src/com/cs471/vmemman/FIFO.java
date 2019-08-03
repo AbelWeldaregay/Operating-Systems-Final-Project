@@ -11,7 +11,7 @@ public class FIFO {
 	private int pageSize;
 	private ArrayList<Integer> virtualAddresses;
 	private int frameSize;
-	ArrayList<Integer> pages = new ArrayList<Integer>();
+	private ArrayList<Integer> pages = new ArrayList<Integer>();
 	
 	public FIFO(int pageSize, ArrayList<Integer> virtualAddresses, int frameSize) {
 		this.pageSize = pageSize;
@@ -37,14 +37,14 @@ public class FIFO {
 				 */
 				if (!s.contains(this.pages.get(i))) {
 					s.add(this.pages.get(i));
-					System.out.println("PAGE FAULT AT PAGE #: " + this.pages.get(i));
+//					System.out.println("PAGE FAULT AT PAGE #: " + this.pages.get(i));
 					pageFaults++;
 					/*
 					 * Push the current page into the queue
 					 */
 					inMemoryPages.add(this.pages.get(i));
 				} else {
-					System.out.println("PAGE HIT PAGE #: " + this.pages.get(i));
+				//	System.out.println("PAGE HIT PAGE #: " + this.pages.get(i));
 				}
 				
 			} 
@@ -55,7 +55,7 @@ public class FIFO {
 			else {
 				
 				if (!s.contains(this.pages.get(i))) {
-					System.out.println("PAGE FAULT AT PAGE #: " + this.pages.get(i));
+					//System.out.println("PAGE FAULT AT PAGE #: " + this.pages.get(i));
 					int firstPage = inMemoryPages.peek();
 					inMemoryPages.poll();
 					/*
@@ -72,7 +72,7 @@ public class FIFO {
 					inMemoryPages.add(this.pages.get(i));
 					pageFaults++;
 				} else {
-					System.out.println("PAGE HIT AT PAGE #: " + this.pages.get(i));
+				//	System.out.println("PAGE HIT AT PAGE #: " + this.pages.get(i));
 				}
 				
 				

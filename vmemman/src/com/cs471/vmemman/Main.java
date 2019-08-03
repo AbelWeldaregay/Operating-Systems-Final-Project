@@ -23,9 +23,10 @@ public class Main {
 		}
 		
 		FIFO fifo = new FIFO(512 ,virtualAddresses, 4 );
-		int pageFaults = fifo.pageFaults();
-		System.out.println("NUMBER OF PAGE FAULTS: " + pageFaults);
-		
-		
+		int fifoPageFaults = fifo.pageFaults();
+		System.out.println("# OF PAGE FAULTS FIFO: " + fifoPageFaults);
+		LRU lru = new LRU(512, virtualAddresses, 4);
+		int lruPageFaults = lru.pageFaults();
+		System.out.println("# OF PAGE FAULTS LRU: " + lruPageFaults);
 	}
 }
