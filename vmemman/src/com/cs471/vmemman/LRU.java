@@ -8,63 +8,100 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class LRU {
-
+	/**
+	 * Holds the given frame size
+	 */
 	private int frameSize;
+	/**
+	 * Holds the pages,
+	 * page = virtual address / page size
+	 */
 	private ArrayList<Integer> pages = new ArrayList<Integer>();
+	/**
+	 * Creates LRU instance with given frame size and pages
+	 * @param frameSize
+	 * @param pages
+	 */
 	public LRU(int frameSize, ArrayList<Integer> pages) {
 		this.frameSize = frameSize;
 		this.pages = pages;
 	}
 	
 	// Method to find page faults using indexes 
+	/**
+	 * Calculates the percentage of page faults
+	 * using Least Recently Used page replacement
+	 * algorithm
+	 * @return page faults in %
+	 */
 	public String LRUPageReplacmentAlgo() 
 	{
 		// To represent set of current pages. We use 
 		// an unordered_set so that we quickly check 
 		// if a page is present in set or not 
-		HashSet<Integer> s = new HashSet<>(frameSize); 
-	
-		// To store least recently used indexes 
-		// of pages. 
+		/*
+		 *Represents the set of current pages in frame 
+		 */
+		HashSet<Integer> frameSet = new HashSet<>(frameSize); 
+		/*
+		 * Stores least recently used indexes of pages
+		 */
 		HashMap<Integer, Integer> indexes = new HashMap<>(); 
 	
-		// Start from initial page 
-		int page_faults = 0; 
+		/*
+		 * keeps track of page faults
+		 */
+		int page_faults = 0;
+		
 		for (int i=0; i<pages.size(); i++) 
 		{ 
-			// Check if the set can hold more pages 
-			if (s.size() < frameSize) 
+			/*
+			 * Check if the set, which is the frame
+			 * can hold any more pages
+			 */
+			if (frameSet.size() < frameSize) 
 			{ 
-				// Insert it into set if not present 
-				// already which represents page fault 
-				if (!s.contains(pages.get(i))) 
+				/*
+				 * If it is not in the set, insert it into
+				 * the set, this means the page was not there
+				 * so increment pageFaults
+				 */
+				if (!frameSet.contains(pages.get(i))) 
 				{ 
-					s.add(pages.get(i)); 
+					frameSet.add(pages.get(i)); 
 	
 					// increment page fault 
 					page_faults++; 
 				} 
 	
-				// Store the recently used index of 
-				// each page 
+				/*
+				 * Storing the recently used
+				 * index of each page
+				 */
 				indexes.put(pages.get(i), i); 
-			} 
-	
-			// If the set is full then need to perform lru 
-			// i.e. remove the least recently used page 
-			// and insert the current page 
+			}
+			/*
+			 *If the set is full, then that means the least
+			 *recently used page needs to be removed,
+			 *and the current page must be inserted into the
+			 *set 
+			 */
 			else
 			{ 
-				// Check if current page is not already 
-				// present in the set 
-				if (!s.contains(pages.get(i))) 
+				/*
+				 * Check if the current page is not already
+				 * in the set
+				 */
+				if (!frameSet.contains(pages.get(i))) 
 				{ 
-					// Find the least recently used pages 
-					// that is present in the set 
+				
 					int lru = Integer.MAX_VALUE, val=Integer.MIN_VALUE; 
 					
-					Iterator<Integer> itr = s.iterator(); 
-					
+					Iterator<Integer> itr = frameSet.iterator(); 
+					/*
+					 * Finding the least recently used value
+					 * Basically finding the smallest index
+					 */
 					while (itr.hasNext()) { 
 						int temp = itr.next(); 
 						if (indexes.get(temp) < lru) 
@@ -74,13 +111,13 @@ public class LRU {
 						} 
 					} 
 				
-					// Remove the indexes page 
-					s.remove(val); 
+					// Remove the least recently used page 
+					frameSet.remove(val); 
 	
 					// insert the current page 
-					s.add(pages.get(i)); 
+					frameSet.add(pages.get(i)); 
 	
-					// Increment page faults 
+					// Increment page faults, because it was not in the set
 					page_faults++; 
 				} 
 	
