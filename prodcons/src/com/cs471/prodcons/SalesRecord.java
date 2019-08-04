@@ -60,7 +60,7 @@ public class SalesRecord {
 	}
 
 	/**
-	 * Imlements toString() for printing SalesRecord
+	 * Implements toString() for printing SalesRecord
 	 */
 	public String toString() {
 		return "\tSales Date: " + salesDate + "\n\tStore ID: " + Integer.toString(storeId) + "\n\tRegister No.: "

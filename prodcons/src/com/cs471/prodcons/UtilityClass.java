@@ -8,14 +8,20 @@ import java.util.Random;
  *
  */
 public class UtilityClass {
-
-	private static final int SLEEP_LENGTH_MIN = 5;
-	private static final int SLEEP_LENGTH_MAX = 25;
-
+	/**
+	 * The minimum sleep length in ms
+	 */
+	static int SLEEP_LENGTH_MIN_MS = 5;
+	/**
+	 * The maximum sleep length in ms
+	 */
+	static int SLEEP_LENGTH_MAX_MS = 40;
+	/**
+	 * Randomly sleeps between
+	 * 5 and 40 milliseconds
+	 */
 	public static void nap() {
-		int min_ms = 5;
-		int max_ms = 40;
-		int sleep_ms = (int) (min_ms + (Math.random() * (double) (max_ms-min_ms)));
+		int sleep_ms = (int) (SLEEP_LENGTH_MIN_MS + (Math.random() * (double) (SLEEP_LENGTH_MAX_MS-SLEEP_LENGTH_MIN_MS)));
 		try {
 			Thread.sleep(sleep_ms);
 		}
