@@ -28,6 +28,11 @@ public class SalesRecord {
 	 * item can range between 0.50 and 999.99
 	 */
 	private float saleAmount;
+	/**
+	 * Holds the sales month,
+	 * makes it easier to calculate stats
+	 */
+	private int saleMonth;
 
 	/**
 	 * Creates a sales record with a given producer id
@@ -108,6 +113,11 @@ public class SalesRecord {
 	void setSaleAmount(float sale) {
 		this.saleAmount = sale;
 	}
+	
+	public int getSaleMonth() {
+		return this.saleMonth;
+	}
+	
 	/**
 	 * generate and set the random day and month of the date
 	 * The year will always be 2016 as specified in specification
@@ -115,9 +125,10 @@ public class SalesRecord {
 	@SuppressWarnings("deprecation")
 	void generateAndSetRandomDates() {
 		Date date = new Date();
-		date.setMonth(UtilityClass.getRandomNumberInRange(1, 29));
+		this.saleMonth = UtilityClass.getRandomNumberInRange(1, 12);
+		date.setMonth(this.saleMonth);
 		date.setYear(2016);
-		date.setDate(UtilityClass.getRandomNumberInRange(1, 12));
+		date.setDate(UtilityClass.getRandomNumberInRange(1, 29));
 		SimpleDateFormat fm = new SimpleDateFormat("MM/dd/yy");
 		this.salesDate = fm.format(date);
 	}

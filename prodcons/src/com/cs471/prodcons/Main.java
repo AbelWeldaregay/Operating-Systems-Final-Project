@@ -8,7 +8,7 @@ public class Main {
 	/**
 	 * The local stats are passed into this arraylist
 	 */
-	static List<SalesRecord> globalStats;
+	static ArrayList<SalesRecord> globalStats;
 	/**
 	 * Command line argument for the number of
 	 * producers to be created
@@ -31,8 +31,8 @@ public class Main {
 		producerCountArg = Integer.parseInt(args[0]);
 		consumerCountArg = Integer.parseInt(args[1]);
 			
-		List<Thread> producerThreads = new ArrayList<>(producerCountArg);
-		List<Thread> consumerThreads = new ArrayList<>(consumerCountArg);
+		ArrayList<Thread> producerThreads = new ArrayList<>(producerCountArg);
+		ArrayList<Thread> consumerThreads = new ArrayList<>(consumerCountArg);
 			
 		/*
 		 * Creating the shared buffer that
@@ -88,10 +88,8 @@ public class Main {
 					consumerThreads.get(i).join();
 				} catch (InterruptedException e) {}
 			}
-			
-		for (int i = 0; i < Main.globalStats.size(); i++) {
-				System.out.println((i+1) + "         " + Main.globalStats.get(i));
-		}	
+			Stats stats = new Stats(globalStats);
+			stats.calculateStats();
 	}
 }
 
