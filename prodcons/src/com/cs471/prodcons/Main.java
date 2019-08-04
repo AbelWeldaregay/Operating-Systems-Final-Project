@@ -1,5 +1,7 @@
 package com.cs471.prodcons;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +21,15 @@ public class Main {
 	 * of consumers to be created
 	 */
 	static int consumerCountArg;
+	public static String[] statTypes = {"store-wide", "month-wise", "aggregate-sales"};
 	/**
 	 * Driver method, flow of execution
 	 * begins here	
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		  Instant start = Instant.now();
 		
 		globalStats = new ArrayList<SalesRecord>();
 		
@@ -88,8 +93,60 @@ public class Main {
 					consumerThreads.get(i).join();
 				} catch (InterruptedException e) {}
 			}
-			Stats stats = new Stats(globalStats);
-			stats.calculateStats();
+			
+			Instant finish = Instant.now();
+			long timeElapsed = Duration.between(start, finish).toMillis();  //in millis
+			System.out.println("Length of Simulation (in ms): " + timeElapsed);
+			
+			
+			
+			
+			for (int s = 0; s < statTypes.length; s++) {
+				
+				switch(statTypes[s]) {
+				case "month-wise": {
+					System.out.println("*********Month**Wide**Sales*********");
+					for (int i = 1; i <= 12; i++) {
+						float monthlySales = 0;
+						for (int j = 0; j < globalStats.size(); j++) {
+							
+							if (i == globalStats.get(j).getSaleMonth()) {
+								monthlySales = monthlySales + globalStats.get(j).getSaleAmount();
+							}
+						}
+						
+						System.out.println("Month: " + i + " Total Sales: " + monthlySales);
+					}
+					
+					break;
+				}
+				case "store-wide": {
+					System.out.println("*********Store**Wide**Sales*********");
+					for (int i = 0; i < producerCountArg; i++) {
+						float storeWideSales = 0;
+						
+						for (int j = 0; j < globalStats.size(); j++) {
+							if (globalStats.get(j).getStoreId() == i) {
+								storeWideSales = storeWideSales + globalStats.get(j).getSaleAmount();
+							}
+						}
+						System.out.println("Store ID: " + i + " Total Sales: " + storeWideSales);
+					}
+					
+					break;
+				}
+				case "aggregate-sales": {
+					System.out.println("*********Aggregate**Of**Sales*********");
+					float totalSales = 0;
+					for (int i = 0; i < globalStats.size(); i++) {
+						totalSales = totalSales + globalStats.get(i).getSaleAmount();
+					}
+					System.out.println(" Total Sales: " + totalSales);
+					break;
+				}
+				}
+				
+			}
 	}
 }
 
