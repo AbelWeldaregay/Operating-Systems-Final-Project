@@ -10,7 +10,7 @@ This program simulates the following page replacement algorithms:
 - **Optimal**
   - When a page fault occurs, it looks forward in time to find the page to replace
     
-When reviewing the results from the output below (https://github.com/AbelWeldaregay/Operating-Systems-Final-Project/blob/master/vmemman/vmemman_output_example.txt), you can see that there is a pattern for every page replacement algorithm, which is that as the number of frames increase, percentage of page faults decreases. This means that it is having better performance because less page faults mean more hits resulting in better performance. This makes sense because as the number of pages increase, there are more changes for hits decreasing the page fault rate.
+When reviewing the results below, you can see that there is a pattern for every page replacement algorithm, which is that as the number of frames increase, percentage of page faults decreases. This means that it is having better performance because less page faults mean more hits resulting in better performance. This makes sense because as the number of pages increase, there are more changes for hits decreasing the page fault rate.
 
 When comparing LRU with FIFO, LRU outperforms FIFO by a very small margin. The optimal algorithm had the best performance when taking a look at the overall % of page faults throughout all of the page sizes and number of page. MRU comes in second place, followed by LRU and FIFO respectively.
 
