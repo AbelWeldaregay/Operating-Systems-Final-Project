@@ -2,7 +2,6 @@ package com.cs471.prodcons;
 /**
  * Represents a Consumer thread
  * @author Abel Weldaregay
- *
  */
 public class Consumer implements Runnable {
 	/**
@@ -41,9 +40,8 @@ public class Consumer implements Runnable {
 			 * Keeping track of the global stats
 			 */
 			Main.globalStats.add(sale);
- 			System.out.println("Consumed " + this.localBuffer.getConsumedCount() + " - " +
- 			Thread.currentThread().getName() + ".....storeID: " +
- 			sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
+			System.out.format("%1s %5s %5s %5s %6s %6s %4s %10s %8s",
+		               "|" , "Consumed ->" + Integer.toString(this.localBuffer.getConsumedCount()), "|", Thread.currentThread().getName(), "|" , "Store Id ->" + Integer.toString(sale.getStoreId()), "|", "Sale Amt. ->" + Float.toString(sale.getSaleAmount()), "\n");
 			/*
 			 * Randomly sleeps for 5-40 milliseconds
 			 */

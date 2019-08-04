@@ -63,8 +63,8 @@ public class SalesRecord {
 	 * Implements toString() for printing SalesRecord
 	 */
 	public String toString() {
-		return "\tSales Date: " + salesDate + "\n\tStore ID: " + Integer.toString(storeId) + "\n\tRegister No.: "
-				+ Integer.toString(registerNumber) + "\n\tSale Amount: $" + Float.toString(saleAmount) + "\n";
+		return String.format("%1s %5s %5s %5s %6s %6s %4s %10s %8s",
+	               "|" ,salesDate, "|", Integer.toString(storeId), "|" , Integer.toString(registerNumber), "|", Float.toString(saleAmount), "|\n");
 	}
 
 	/**

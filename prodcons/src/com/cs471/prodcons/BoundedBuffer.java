@@ -76,7 +76,7 @@ class BoundedBuffer {
 	 * @param item
 	 */
 	public synchronized void produce(SalesRecord item) {
-		/* Entery Section
+		/* Entry Section
 		 * Waiting for when the buffer has an open
 		 * slot
 		 */
@@ -89,7 +89,7 @@ class BoundedBuffer {
 				e.printStackTrace();
 			}
 			// helps with debugging and reviewing results
-			System.err.println("PRODUCE WAITING | ITEMS IN BUFFER: " + count);
+			System.err.println("PRODUCE WAITING | ITEMS IN BUFFER -> " + count);
 		}
 		/*Critical Section
 		 * Now entering the critical section,
@@ -115,7 +115,7 @@ class BoundedBuffer {
 	 * @return item consumed
 	 */
 	public synchronized SalesRecord consume() {
-		/* Entery Section
+		/* Entry Section
 		 * For it to consume anything, there first
 		 * needs to be something in the buffer, so it waits
 		 * until something appears in the buffer
@@ -127,7 +127,7 @@ class BoundedBuffer {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.err.println("CONSUME WAITING | ITEMS IN BUFFER: " + count);
+			System.err.println("CONSUME WAITING | ITEMS IN BUFFER -> " + count);
 		}
 		/* Critical Section
 		 * Consumes an item, and decrements

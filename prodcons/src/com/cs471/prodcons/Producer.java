@@ -36,12 +36,11 @@ public class Producer implements Runnable {
 			
 			sale = new SalesRecord(producerId);
 			this.localBuffer.produce(sale);
- 			System.out.println(
- 					"Produced " + this.localBuffer.getProducedCount() + " - " +
-					Thread.currentThread().getName() + ".....storeID: " +
-					sale.getStoreId() + ", Amount: " + sale.getSaleAmount()
-			);
-			
+			System.out.format("%1s %5s %5s %5s %6s %6s %4s %10s %8s",
+		               "|" , "Produced ->" + Integer.toString(this.localBuffer.getConsumedCount()), "|", Thread.currentThread().getName(), "|" , "Store Id ->" + Integer.toString(sale.getStoreId()), "|", "Sale Amt. ->" + Float.toString(sale.getSaleAmount()), "\n");
+//			System.out.format("%1s %5s %5s %5s %6s %6s %4s %10s %8s",
+//		               "|" ,Integer.toString(this.localBuffer.getProducedCount()), "|", Thread.currentThread().getName(), "|" , Integer.toString(sale.getStoreId()), "|", Float.toString(sale.getSaleAmount()), "|\n");
+//			
 			UtilityClass.nap();
 			
 		}
