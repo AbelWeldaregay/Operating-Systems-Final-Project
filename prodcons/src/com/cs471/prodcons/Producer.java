@@ -17,7 +17,7 @@ public class Producer implements Runnable {
 	@Override
 	public void run() {
 		while (this.buffer.getProducedCount() <= BoundedBuffer.MAX_BUFFER_SIZE) {
-			this.buffer.incrementProducedCount();
+			this.buffer.updateProduced();
 			
 			oneSale = new SalesRecord(producerId);
 			this.buffer.produce(oneSale);

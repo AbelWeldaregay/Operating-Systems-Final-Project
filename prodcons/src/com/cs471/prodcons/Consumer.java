@@ -28,7 +28,7 @@ public class Consumer implements Runnable {
 	public void run() {
 		while (this.localBuffer.getConsumedCount() < BoundedBuffer.MAX_BUFFER_SIZE) {
 			// Increment number of items consumed, tracked by the sharedBuffer
-			this.localBuffer.incrementConsumedCount();
+			this.localBuffer.updateConsumed();
 			
 			sale = this.localBuffer.consume();
 			Main.globalStats.add(sale);

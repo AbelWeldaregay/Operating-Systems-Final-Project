@@ -1,6 +1,10 @@
 package com.cs471.prodcons;
 
-
+/**
+ * Represents a bounded buffer
+ * @author Abel Weldaregay
+ *
+ */
 class BoundedBuffer {
 	/**
 	 * Number of producers
@@ -72,7 +76,7 @@ class BoundedBuffer {
 	 * @param item
 	 */
 	public synchronized void produce(SalesRecord item) {
-		/*
+		/* Entery Section
 		 * Waiting for when the buffer has an open
 		 * slot
 		 */
@@ -87,7 +91,7 @@ class BoundedBuffer {
 			// helps with debugging and reviewing results
 			System.err.println("PRODUCE WAITING | ITEMS IN BUFFER: " + count);
 		}
-		/*
+		/*Critical Section
 		 * Now entering the critical section,
 		 * Adds the item to the buffer
 		 */
@@ -104,8 +108,19 @@ class BoundedBuffer {
 		 */
 		this.notifyAll();
 	}
+	/**
+	 * Consumers call this method,
+	 * consumes (removes) an item from
+	 * the buffer
+	 * @return item consumed
+	 */
 	public synchronized SalesRecord consume() {
-		while (count <= 0) { // wait till something appears in the buffer
+		/* Entery Section
+		 * For it to consume anything, there first
+		 * needs to be something in the buffer, so it waits
+		 * until something appears in the buffer
+		 */
+		while (count <= 0) {
 			try {
 				this.wait();
 			}
@@ -114,26 +129,29 @@ class BoundedBuffer {
 			}
 			System.err.println("CONSUME WAITING | ITEMS IN BUFFER: " + count);
 		}
+		/* Critical Section
+		 * Consumes an item, and decrements
+		 * count since there is now one less
+		 * item in the buffer
+		 */
 		SalesRecord saleRecord = buffer[out];
 		out = (out + 1) % BUFFER_SIZE;
 		--count;
+		
+		/* Exit Section
+		 * Once the critical section is finished,
+		 * it notifies other threads that it has finished
+		 * executing in it's critical section
+		 */
 		this.notifyAll();
 		return saleRecord;
-	}
-	
-	static int getProducers() {
-		return PRODUCERS;
-	}
-
-	int getConsumers() {
-		return CONSUMERS;
 	}
 	
 	public synchronized int getProducedCount() {
 			return this.producedCount;
 	}
 	
-	public synchronized void incrementProducedCount() {
+	public synchronized void updateProduced() {
 			this.producedCount++;
 	}
 	
@@ -141,7 +159,7 @@ class BoundedBuffer {
 			return this.consumedCount;
 	}
 	
-	public synchronized void incrementConsumedCount() {
+	public synchronized void updateConsumed() {
 			this.consumedCount++;
 	}
 	
