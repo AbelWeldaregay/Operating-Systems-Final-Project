@@ -1,6 +1,6 @@
 package com.cs471.prodcons;
 /**
- * Represents a consumer
+ * Represents a Consumer thread
  * @author Abel Weldaregay
  *
  */
@@ -18,7 +18,7 @@ public class Consumer implements Runnable {
 	 */
 	SalesRecord sale;
 	/**
-	 * Creates an instance of a Consumer
+	 * Creates an instance of a Consumer thread
 	 * with the given buffer
 	 * @param buffer
 	 */

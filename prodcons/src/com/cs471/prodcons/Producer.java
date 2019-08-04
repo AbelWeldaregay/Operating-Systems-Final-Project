@@ -1,29 +1,45 @@
 package com.cs471.prodcons;
 
-
+/**
+ * 
+ * @author Abel Weldaregay
+ *
+ */
 public class Producer implements Runnable {
-	// Variable Elements
-	BoundedBuffer buffer;
+	/**
+	 * the local bounded buffer
+	 */
+	BoundedBuffer localBuffer;
+	/**
+	 * Unique producer Id
+	 */
 	int producerId;
-	SalesRecord oneSale;
+	/**
+	 * Represents a sale
+	 */
+	SalesRecord sale;
 
-	// Constructor
-	public Producer(BoundedBuffer buffer, int i) {
-		this.buffer = buffer;
-		producerId = i;
+	/**
+	 * 
+	 * @param buffer
+	 * @param producerId
+	 */
+	public Producer(BoundedBuffer buffer, int producerId) {
+		this.localBuffer = buffer;
+		this.producerId = producerId;
 	}
 
 	@Override
 	public void run() {
-		while (this.buffer.getProducedCount() <= BoundedBuffer.MAX_BUFFER_SIZE) {
-			this.buffer.updateProduced();
+		while (this.localBuffer.getProducedCount() <= BoundedBuffer.MAX_BUFFER_SIZE) {
+			this.localBuffer.updateProduced();
 			
-			oneSale = new SalesRecord(producerId);
-			this.buffer.produce(oneSale);
+			sale = new SalesRecord(producerId);
+			this.localBuffer.produce(sale);
  			System.out.println(
- 					"Produced " + this.buffer.getProducedCount() + " - " +
+ 					"Produced " + this.localBuffer.getProducedCount() + " - " +
 					Thread.currentThread().getName() + ".....storeID: " +
-					oneSale.getStoreId() + ", Amount: " + oneSale.getSaleAmount()
+					sale.getStoreId() + ", Amount: " + sale.getSaleAmount()
 			);
 			
 			UtilityClass.nap();
