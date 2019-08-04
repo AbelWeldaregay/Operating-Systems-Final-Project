@@ -36,15 +36,12 @@ public class LRU {
 	 */
 	public String LRUPageReplacmentAlgo() 
 	{
-		// To represent set of current pages. We use 
-		// an unordered_set so that we quickly check 
-		// if a page is present in set or not 
 		/*
 		 *Represents the set of current pages in frame 
 		 */
 		HashSet<Integer> frameSet = new HashSet<>(frameSize); 
 		/*
-		 * Stores least recently used indexes of pages
+		 * Stores recently used indexes of pages
 		 */
 		HashMap<Integer, Integer> indexes = new HashMap<>(); 
 	
@@ -125,7 +122,9 @@ public class LRU {
 				indexes.put(pages.get(i), i); 
 			} 
 		} 
-	
+		/*
+		 * Calculate the percentage of page faults
+		 */
 		DecimalFormat df2 = new DecimalFormat("0.00");
 		float percentage = ((float) page_faults) / pages.size();
 		percentage = percentage * 100;

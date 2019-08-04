@@ -4,26 +4,44 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Optimal {
-
+	/**
+	 * Holds the frame size
+	 */
 	int frameSize;
+	/**
+	 * Holds the pages
+	 * page = virtual address / page size
+	 */
 	ArrayList<Integer> pages = new ArrayList<Integer>();
-	
+	/**
+	 * Creates an instance of Optimal algorithm with
+	 * given frameSize and pages
+	 * @param frameSize
+	 * @param pages
+	 */
 	public Optimal(int frameSize, ArrayList<Integer> pages) {
 		this.frameSize = frameSize;
 		this.pages = pages;
 	}
 	
-	// Function to find the frame that will not be used 
-	// recently in future after given index in pg[0..pn-1] 
-	static int predict( ArrayList<Integer> pg, ArrayList<Integer> fr, int pn, int index) 
+	/**
+	 * Function to find the frame that will not be used in
+	 * the longest time after the given index
+	 * @param pg
+	 * @param fr
+	 * @param pn
+	 * @param index
+	 * @return
+	 */
+	static int predict( ArrayList<Integer> pages, ArrayList<Integer> frame, int pn, int index) 
 	{
 	    // Store the index of pages which are going 
 	    // to be used recently in future 
 	    int res = -1, farthest = index; 
-	    for (int i = 0; i < fr.size(); i++) { 
+	    for (int i = 0; i < frame.size(); i++) { 
 	        int j; 
 	        for (j = index; j < pn; j++) { 
-	            if (fr.get(i) == pg.get(j)) { 
+	            if (frame.get(i) == pages.get(j)) { 
 	                if (j > farthest) { 
 	                    farthest = j; 
 	                    res = i; 
@@ -31,16 +49,19 @@ public class Optimal {
 	                break; 
 	            } 
 	        } 
-	  
-	        // If a page is never referenced in future, 
-	        // return it. 
+
+	        /*
+	         * If the page is never again referenced,
+	         * return it
+	         */
 	        if (j == pn) 
 	            return i; 
 	    } 
-	  
-	    // If all of the frames were not in future, 
-	    // return any of them, we return 0. Otherwise 
-	    // we return res. 
+
+	    /*
+	     * If all the frames were not present in the future
+	     * pages, return 0, else return the result
+	     */
 	    return (res == -1) ? 0 : res; 
 	}
 	
@@ -58,12 +79,14 @@ public class Optimal {
 		}
 		return false;
 	}
-	
+	/*
+	 * Performs optimal page replacement algorithm
+	 */
 	public String optimalPageReplacmentAlgo() 
 	{
 	    // Create an array for given number of 
-	    // frames and initialize it as empty. 
-	    ArrayList<Integer> fr = new ArrayList<>(); 
+	    // frames and initialize it as empty.
+	    ArrayList<Integer> fr = new ArrayList<>(this.frameSize); 
 	  
 	    // Traverse through page reference array 
 	    // and check for miss and hit. 
@@ -88,6 +111,7 @@ public class Optimal {
 	            fr.set(j, pages.get(i));
 	        } 
 	    }
+	    
 	    int pageFaults = pages.size() - hit;
 		DecimalFormat df2 = new DecimalFormat("0.00");
 		float percentage = ((float) pageFaults) / pages.size();
