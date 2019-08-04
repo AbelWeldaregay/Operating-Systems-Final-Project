@@ -15,13 +15,6 @@ When reviewing the results from the output below (https://github.com/AbelWeldare
 When comparing LRU with FIFO, LRU outperforms FIFO by a very small margin. The optimal algorithm had the best performance when taking a look at the overall % of page faults throughout all of the page sizes and number of page. MRU comes in second place, followed by LRU and FIFO respectively.
 
 ## Program Output
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
 | Page Size | # of Pages | Algorithm | % of Page Faults |
 | --------- |:----------:|:---------:| ----------------:|
 |   512     |     4      |   FIFO    |      80.37       | 
