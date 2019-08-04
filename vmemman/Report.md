@@ -15,44 +15,51 @@ When reviewing the results from the output below (https://github.com/AbelWeldare
 When comparing LRU with FIFO, LRU outperforms FIFO by a very small margin. The optimal algorithm had the best performance when taking a look at the overall % of page faults throughout all of the page sizes and number of page. MRU comes in second place, followed by LRU and FIFO respectively.
 
 ## Program Output
- _______________________________________________________<br /> 
-| Page Size | # of Pages | Algorithm | % of Page Faults |<br /> 
-|   512     |     4      |   FIFO    |      80.37       |<br /> 
-|   512     |     8      |   FIFO    |      61.00       |<br /> 
-|   512     |    12      |   FIFO    |      42.97       |<br /> 
-|  1024     |     4      |   FIFO    |      61.40       |<br /> 
-|  1024     |     8      |   FIFO    |      23.60       |<br /> 
-|  1024     |    12      |   FIFO    |       3.57       |<br /> 
-|  2048     |     4      |   FIFO    |      26.67       |<br /> 
-|  2048     |     8      |   FIFO    |       1.90       |<br /> 
-|  2048     |    12      |   FIFO    |       1.83       |<br /> 
-|   512     |     4      |    LRU    |      80.00       |<br /> 
-|   512     |     8      |    LRU    |      60.10       |<br /> 
-|   512     |    12      |    LRU    |      42.07       |<br /> 
-|  1024     |     4      |    LRU    |      60.47       |<br /> 
-|  1024     |     8      |    LRU    |      22.80       |<br /> 
-|  1024     |    12      |    LRU    |       3.57       |<br /> 
-|  2048     |     4      |    LRU    |      26.03       |<br /> 
-|  2048     |     8      |    LRU    |       1.90       |<br /> 
-|  2048     |    12      |    LRU    |       1.83       |<br /> 
-|   512     |     4      |    MRU    |      65.70       |<br /> 
-|   512     |     8      |    MRU    |      64.23       |<br /> 
-|   512     |    12      |    MRU    |      62.60       |<br /> 
-|  1024     |     4      |    MRU    |      38.07       |<br /> 
-|  1024     |     8      |    MRU    |      35.77       |<br /> 
-|  1024     |    12      |    MRU    |      34.30       |<br /> 
-|  2048     |     4      |    MRU    |      16.30       |<br /> 
-|  2048     |     8      |    MRU    |      15.77       |<br /> 
-|  2048     |    12      |    MRU    |      14.20       |<br /> 
-|   512     |     4      |    OPT    |      68.80       |<br /> 
-|   512     |     8      |    OPT    |      53.90       |<br /> 
-|   512     |    12      |    OPT    |      45.00       |<br /> 
-|  1024     |     4      |    OPT    |      37.90       |<br /> 
-|  1024     |     8      |    OPT    |      11.27       |<br /> 
-|  1024     |    12      |    OPT    |       3.40       |<br /> 
-|  2048     |     4      |    OPT    |      13.97       |<br /> 
-|  2048     |     8      |    OPT    |       1.73       |<br /> 
-|  2048     |    12      |    OPT    |       1.63       |<br /> 
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
+| Page Size | # of Pages | Algorithm | % of Page Faults |
+| --------- |:----------:|:---------:| ----------------:|
+|   512     |     4      |   FIFO    |      80.37       | 
+|   512     |     8      |   FIFO    |      61.00       | 
+|   512     |    12      |   FIFO    |      42.97       | 
+|  1024     |     4      |   FIFO    |      61.40       | 
+|  1024     |     8      |   FIFO    |      23.60       | 
+|  1024     |    12      |   FIFO    |       3.57       | 
+|  2048     |     4      |   FIFO    |      26.67       | 
+|  2048     |     8      |   FIFO    |       1.90       | 
+|  2048     |    12      |   FIFO    |       1.83       | 
+|   512     |     4      |    LRU    |      80.00       |
+|   512     |     8      |    LRU    |      60.10       |
+|   512     |    12      |    LRU    |      42.07       |
+|  1024     |     4      |    LRU    |      60.47       | 
+|  1024     |     8      |    LRU    |      22.80       | 
+|  1024     |    12      |    LRU    |       3.57       | 
+|  2048     |     4      |    LRU    |      26.03       | 
+|  2048     |     8      |    LRU    |       1.90       | 
+|  2048     |    12      |    LRU    |       1.83       | 
+|   512     |     4      |    MRU    |      65.70       | 
+|   512     |     8      |    MRU    |      64.23       | 
+|   512     |    12      |    MRU    |      62.60       | 
+|  1024     |     4      |    MRU    |      38.07       | 
+|  1024     |     8      |    MRU    |      35.77       | 
+|  1024     |    12      |    MRU    |      34.30       | 
+|  2048     |     4      |    MRU    |      16.30       | 
+|  2048     |     8      |    MRU    |      15.77       | 
+|  2048     |    12      |    MRU    |      14.20       | 
+|   512     |     4      |    OPT    |      68.80       | 
+|   512     |     8      |    OPT    |      53.90       |
+|   512     |    12      |    OPT    |      45.00       | 
+|  1024     |     4      |    OPT    |      37.90       | 
+|  1024     |     8      |    OPT    |      11.27       | 
+|  1024     |    12      |    OPT    |       3.40       | 
+|  2048     |     4      |    OPT    |      13.97       |
+|  2048     |     8      |    OPT    |       1.73       | 
+|  2048     |    12      |    OPT    |       1.63       | 
 
 **Overall Average Page Fault**
 1. **Optimal**
