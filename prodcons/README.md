@@ -24,8 +24,8 @@ git clone https://github.com/AbelWeldaregay/Operating-Systems-Final-Project.git
 cd prodcons/
 ```
 - Once in the Operating-Systems-Final-Project/vmemman directory, run this command to build and run project
-- the 3 represents the number of producers, and 6 represents consumers, they are passed as command line arguments and can be modified
+- the 2 represents the number of producers, and 5 represents consumers, they are passed as command line arguments and can be modified
 ```
 gradle build
-gradle run --args='3 6'
+gradle run --args='2 5'
 ```
