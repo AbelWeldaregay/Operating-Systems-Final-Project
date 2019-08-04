@@ -5,42 +5,50 @@ package com.cs471.prodcons;
  *
  */
 public class Consumer implements Runnable {
-	// Variable Elements
+	/**
+	 * the local bounded buffer
+	 */
 	BoundedBuffer localBuffer;
+	/**
+	 * Unique consumer Id
+	 */
 	int consumerId;
-	private volatile static boolean exit = false;
+	/**
+	 * Represents a sale
+	 */
 	SalesRecord sale;
-	SalesRecord[] consumedSales;
-
-	// Constructor
+	/**
+	 * Creates an instance of a Consumer
+	 * with the given buffer
+	 * @param buffer
+	 */
 	public Consumer(BoundedBuffer buffer) {
 		this.localBuffer = buffer;
-		consumedSales = new SalesRecord[BoundedBuffer.MAX_BUFFER_SIZE];
 	}
-
-	void print() {
-		for (int i = 0; i < (consumedSales.length); i++) {
-			System.out.println(consumedSales[i].toString() + "\n");
-		}
-	}
-
+	
 	@Override
 	public void run() {
 		while (this.localBuffer.getConsumedCount() < BoundedBuffer.MAX_BUFFER_SIZE) {
-			// Increment number of items consumed, tracked by the sharedBuffer
+			/*
+			 * Since an item has been consumed,
+			 * the consumed count in the buffer needs
+			 * to be updated
+			 */
 			this.localBuffer.updateConsumed();
 			
 			sale = this.localBuffer.consume();
+			/*
+			 * Keeping track of the global stats
+			 */
 			Main.globalStats.add(sale);
  			System.out.println("Consumed " + this.localBuffer.getConsumedCount() + " - " +
  			Thread.currentThread().getName() + ".....storeID: " +
  			sale.getStoreId() + ", Amount: " + sale.getSaleAmount());
-			
+			/*
+			 * Randomly sleeps for 5-40 milliseconds
+			 */
 			UtilityClass.nap();
 
-			if (this.localBuffer.getConsumedCount() >= BoundedBuffer.MAX_BUFFER_SIZE) {
-				exit = true;
-			}
 		}
 	}
 }

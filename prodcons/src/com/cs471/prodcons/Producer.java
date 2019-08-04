@@ -5,7 +5,6 @@ public class Producer implements Runnable {
 	// Variable Elements
 	BoundedBuffer buffer;
 	int producerId;
-	private volatile static boolean exit = false;
 	SalesRecord oneSale;
 
 	// Constructor
@@ -29,9 +28,6 @@ public class Producer implements Runnable {
 			
 			UtilityClass.nap();
 			
-			if (this.buffer.getProducedCount() >= BoundedBuffer.MAX_BUFFER_SIZE) {
-				exit = true;
-			}
 		}
 	}
 }
