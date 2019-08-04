@@ -1,5 +1,7 @@
 # Problem 1: Producer-Consumer Problem Report
 
+In order to syncrhonize the bounded buffer though the multiple threads, the semaphores wait() and notifyAll() were employed in BoundedBuffer.java . In the method consume(), which is located in BoundedBuffer.java, before the process enters it's critical section, the entry section checks if the buffer has an open slot. It will continue to wait until there is a slot. After it satisfies the entry condition, then it will enter the critical section where the variable count, which is shared between the producer and consumer theads is updated, then it enters the exit section in which it calls notifyAll() to let other threads know that it has finished executing in its critical section.
+
 ## Simulation time from the 9 runs
 
 |           | P = 2      | P = 5     |    P = 10  |
