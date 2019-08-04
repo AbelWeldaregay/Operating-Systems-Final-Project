@@ -9,93 +9,91 @@ import java.util.Iterator;
 
 public class LRU {
 
-	private int pageSize;
-	private ArrayList<Integer> virtualAddresses;
 	private int frameSize;
 	private ArrayList<Integer> pages = new ArrayList<Integer>();
-	public LRU(int pageSize, ArrayList<Integer> virtualAddresses, int frameSize) {
-		this.pageSize = pageSize;
-		this.virtualAddresses = virtualAddresses;
+	public LRU(int frameSize, ArrayList<Integer> pages) {
 		this.frameSize = frameSize;
-		for (int i = 0; i < this.virtualAddresses.size(); i++) {
-			this.pages.add(UtilityClass.getPageNumber(this.virtualAddresses.get(i), this.pageSize));
-		}
-
+		this.pages = pages;
 	}
 	
-	public String pageFaults() {
-		
-		/*
-		 * Represents the set of current pages
-		 */
-		HashSet<Integer> s = new HashSet<>(this.frameSize);
-		/*
-		 * Stores the least recently used indexes of pages
-		 */
-		HashMap<Integer, Integer> indexes = new HashMap<>();
-		
-		// start from initial page
-		int pageFaults = 0;
-		int hits = 0;
-		int n = this.pages.size();
-		for (int i = 0; i < n; i++) {
-			
-			//check if the set (frame) can hold more pages
-			if (s.size() < this.frameSize) {
-				if (!s.contains(this.pages.get(i))) {
-					s.add(this.pages.get(i));
-					pageFaults++;
-				} else {
-					hits++;
-				}
-				//store the recently used index of each page
-				indexes.put(pages.get(i), i);
-			}
-			/*
-			 * If the set is full, then LRU algorithm 
-			 * is used to replace the least recently used
-			 * page with the current page
-			 */
-			else {
-				if (!s.contains(pages.get(i))) {
-					/*
-					 * Finding the least recently used pages that
-					 * is present in the set
-					 */
-					int LRU = Integer.MAX_VALUE;
-					int val = Integer.MIN_VALUE;
-					Iterator<Integer> itr = s.iterator();
+	// Method to find page faults using indexes 
+	public String LRUPageReplacmentAlgo() 
+	{
+		// To represent set of current pages. We use 
+		// an unordered_set so that we quickly check 
+		// if a page is present in set or not 
+		HashSet<Integer> s = new HashSet<>(frameSize); 
+	
+		// To store least recently used indexes 
+		// of pages. 
+		HashMap<Integer, Integer> indexes = new HashMap<>(); 
+	
+		// Start from initial page 
+		int page_faults = 0; 
+		for (int i=0; i<pages.size(); i++) 
+		{ 
+			// Check if the set can hold more pages 
+			if (s.size() < frameSize) 
+			{ 
+				// Insert it into set if not present 
+				// already which represents page fault 
+				if (!s.contains(pages.get(i))) 
+				{ 
+					s.add(pages.get(i)); 
+	
+					// increment page fault 
+					page_faults++; 
+				} 
+	
+				// Store the recently used index of 
+				// each page 
+				indexes.put(pages.get(i), i); 
+			} 
+	
+			// If the set is full then need to perform lru 
+			// i.e. remove the least recently used page 
+			// and insert the current page 
+			else
+			{ 
+				// Check if current page is not already 
+				// present in the set 
+				if (!s.contains(pages.get(i))) 
+				{ 
+					// Find the least recently used pages 
+					// that is present in the set 
+					int lru = Integer.MAX_VALUE, val=Integer.MIN_VALUE; 
 					
-					while (itr.hasNext()) {
-						int temp = itr.next();
-						if (indexes.get(temp) < LRU) {
-							LRU = indexes.get(temp);
-							val = temp;
-						}
-					}
-					/*
-					 * remove the least recently used page
-					 */
-					s.remove(val);
-					/*
-					 * Insert the current page to the set
-					 */
-					s.add(pages.get(i));
-					// Increase the number of page faults
-					pageFaults++;
-				} else {
-					hits++;
-				}
-				indexes.put(pages.get(i), i);
-			}
-
-			
-		}
+					Iterator<Integer> itr = s.iterator(); 
+					
+					while (itr.hasNext()) { 
+						int temp = itr.next(); 
+						if (indexes.get(temp) < lru) 
+						{ 
+							lru = indexes.get(temp); 
+							val = temp; 
+						} 
+					} 
+				
+					// Remove the indexes page 
+					s.remove(val); 
+	
+					// insert the current page 
+					s.add(pages.get(i)); 
+	
+					// Increment page faults 
+					page_faults++; 
+				} 
+	
+				// Update the current page index 
+				indexes.put(pages.get(i), i); 
+			} 
+		} 
+	
 		DecimalFormat df2 = new DecimalFormat("0.00");
-		float percentage = ((float) pageFaults) / pages.size();
+		float percentage = ((float) page_faults) / pages.size();
 		percentage = percentage * 100;
 		
-		return df2.format(percentage);
+		return df2.format(percentage); 
 	}
 	
 	

@@ -9,44 +9,23 @@ import java.util.Queue;
 public class FIFO {
 
 	static Queue<Integer> inMemoryPages = new LinkedList<Integer>();
-	private int pageSize;
-	private ArrayList<Integer> virtualAddresses;
 	private int frameSize;
 	private ArrayList<Integer> pages = new ArrayList<Integer>();
 	
-	public FIFO(int pageSize, ArrayList<Integer> virtualAddresses, int frameSize) {
-		//this.pageSize = pageSize;
+	FIFO(int frameSize, ArrayList<Integer> pages) {
 		this.frameSize = frameSize;
-		//this.virtualAddresses = virtualAddresses;
-		
-		pages.add(7);
-		pages.add(0);
-		pages.add(1);
-		
-		pages.add(2);
-		pages.add(0);
-		pages.add(3);
-		pages.add(0);
-		pages.add(4);
-		pages.add(2);
-		pages.add(3);
-		pages.add(0);
-		pages.add(3);
-		pages.add(2);
-		
-//		for (int i = 0; i < this.virtualAddresses.size(); i++) {
-//			this.pages.add(UtilityClass.getPageNumber(this.virtualAddresses.get(i), this.pageSize));
-//		}
+		this.pages = pages;
 	}
 
 	
-	public String pageFaults() {
+	public String FIFOPageReplacmentAlgo() {
 		
-		HashSet<Integer> s = new HashSet<>(frameSize);
+		HashSet<Integer> s = new HashSet<>();
 		
 		int pageFaults = 0;
 		int hits = 0;
 		int numberOfPages = this.pages.size();
+		Queue<Integer> inMemoryPages = new LinkedList<Integer>();
 		for (int i = 0; i < numberOfPages; i++) {
 			// check if the current frame has space
 			if (s.size() < frameSize) {
@@ -54,14 +33,14 @@ public class FIFO {
 				 *Insert it into set if not present
 				 *already which represents page fault 
 				 */
-				if (!s.contains(this.pages.get(i))) {
-					s.add(this.pages.get(i));
+				if (!s.contains(pages.get(i))) {
+					s.add(pages.get(i));
 //					System.out.println("PAGE FAULT AT PAGE #: " + this.pages.get(i));
 					pageFaults++;
 					/*
 					 * Push the current page into the queue
 					 */
-					inMemoryPages.add(this.pages.get(i));
+					inMemoryPages.add(pages.get(i));
 				}
 				
 			} 
@@ -71,7 +50,7 @@ public class FIFO {
 			 */
 			else {
 				
-				if (!s.contains(this.pages.get(i))) {
+				if (!s.contains(pages.get(i))) {
 					//System.out.println("PAGE FAULT AT PAGE #: " + this.pages.get(i));
 					int firstPage = inMemoryPages.peek();
 					inMemoryPages.poll();
@@ -82,11 +61,11 @@ public class FIFO {
 					/*
 					 *Insert the current page 
 					 */
-					s.add(this.pages.get(i));
+					s.add(pages.get(i));
 					/*
 					 * Insert the current page to in memory pages
 					 */
-					inMemoryPages.add(this.pages.get(i));
+					inMemoryPages.add(pages.get(i));
 					pageFaults++;
 				}
 			}
@@ -95,7 +74,7 @@ public class FIFO {
 		float percentage = ((float) pageFaults) / numberOfPages;
 		percentage = percentage * 100;
 		
-		return Integer.toString(pageFaults);
+		return df2.format(percentage);
 		
 	}
 	
