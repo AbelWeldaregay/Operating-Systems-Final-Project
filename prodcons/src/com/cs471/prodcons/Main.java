@@ -96,7 +96,7 @@ public class Main {
 			
 			Instant finish = Instant.now();
 			long timeElapsed = Duration.between(start, finish).toMillis();  //in millis
-			System.out.println("Length of Simulation (in ms): " + timeElapsed);
+			System.out.println("Length of Simulation (in seconds): " + timeElapsed/1000.00);
 			
 			
 			
