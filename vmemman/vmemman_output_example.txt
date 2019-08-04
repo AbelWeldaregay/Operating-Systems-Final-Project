@@ -47,5 +47,5 @@
 |  2048     |    12      |    OPT    |       1.63       |
 
 
-BUILD SUCCESSFUL in 1s
+BUILD SUCCESSFUL in 923ms
 2 actionable tasks: 1 executed, 1 up-to-date
