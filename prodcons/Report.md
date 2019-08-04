@@ -1,3 +1,9 @@
+# Problem 1: Producer-Consumer Problem Report
+
+
+
+## Simulation time from the 9 runs
+
 |           | P = 2      | P = 5     |    P = 10  |
 | --------- |:----------:|:---------:|:---------: |
 |  C = 2    |  126.064   |  123.923  |  123.938   |
