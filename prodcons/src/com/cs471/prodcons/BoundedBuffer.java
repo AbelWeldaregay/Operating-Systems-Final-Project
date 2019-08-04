@@ -43,44 +43,65 @@ class BoundedBuffer {
 	 * next item to be consumed
 	 */
 	private int out;
+	/**
+	 * Shared buffer
+	 */
 	private SalesRecord[] buffer;
-
-	BoundedBuffer(int P, int C) {
-		BoundedBuffer.PRODUCERS = P;
-		BoundedBuffer.CONSUMERS = C;
-		BoundedBuffer.producedCount = 0; // initially there are 0 produced items
-		BoundedBuffer.consumedCount = 0; // initially there are 0 consumed items
+	/**
+	 * Creates an instance of BoundedBuffer
+	 * with given producers and consumers
+	 * Produced count and consumed count are
+	 * initially set to 0 since there is nothing
+	 * created yet
+	 * @param P
+	 * @param C
+	 */
+	BoundedBuffer(int PRODUCERS, int CONSUMERS) {
+		BoundedBuffer.PRODUCERS = PRODUCERS;
+		BoundedBuffer.CONSUMERS = CONSUMERS;
+		BoundedBuffer.producedCount = 0; 
+		BoundedBuffer.consumedCount = 0;
 		this.in = 0;
 		this.out = 0;
-		this.count = 0; // initially the buffer is empty
-		// Set the buffer to a bounded size (it can hold BUFFER_SIZE SalesRecords at a time)
+		this.count = 0;
 		this.buffer = new SalesRecord[BUFFER_SIZE]; 
 	}
-
-	static int getProducers() {
-		return PRODUCERS;
-	}
-
-	int getConsumers() {
-		return CONSUMERS;
-	}
-
-	int checkCount() {
-		return count;
-	}
+	/**
+	 * Producers call this method,
+	 * produces an item
+	 * @param item
+	 */
 	public synchronized void produce(SalesRecord item) {
-		while (count >= BUFFER_SIZE) { // wait till the buffer has an open space
+		/*
+		 * Waiting for when the buffer has an open
+		 * slot
+		 */
+		while (count >= BUFFER_SIZE) {
 			try {
+				// waiting to enter the critical section 
 				this.wait();
 			}
 			catch (Exception e) {
 				e.printStackTrace();
 			}
+			// helps with debugging and reviewing results
 			System.err.println("PRODUCE WAITING | ITEMS IN BUFFER: " + count);
 		}
+		/*
+		 * Now entering the critical section,
+		 * Adds the item to the buffer
+		 */
 		buffer[in] = item;
+		// the index of the next position to be inserted
 		in = (in + 1) % BUFFER_SIZE;
+		// incrementing count since one item was just added
 		++count;
+		
+		/*
+		 * Now entering exit section, notifyAll lets
+		 * all other semaphores know other threads waiting that
+		 * it is done
+		 */
 		this.notifyAll();
 	}
 	public synchronized SalesRecord consume() {
@@ -98,6 +119,14 @@ class BoundedBuffer {
 		--count;
 		this.notifyAll();
 		return saleRecord;
+	}
+	
+	static int getProducers() {
+		return PRODUCERS;
+	}
+
+	int getConsumers() {
+		return CONSUMERS;
 	}
 	
 	public synchronized int getProducedCount() {
