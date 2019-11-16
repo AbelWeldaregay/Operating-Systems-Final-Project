@@ -7,4 +7,4 @@
 [./vmemman](https://github.com/AbelWeldaregay/Operating-Systems-Final-Project/tree/master/vmemman)
 
 # Author
-- [Abel Weldaregay](https://www.cs.odu.edu/~aweldare/)
+- Abel Weldaregay
